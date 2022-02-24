@@ -1,41 +1,32 @@
-const Person = require("./model");
-
-const createObj = (name, age) => {
-    let query = {};
-    if(name) query.name = name;
-    if(age) query.age = age;
-    return query;
-}
-
-exports.add = async (name, age) => {
+exports.add = async (dbObj, var1, var2) => {
     try{
-        return await Person.create({name, age}); // same as {name: name, age: age}
+        return await dbObj.model.create(dbObj.createObj(var1, var2));
     } catch (error) {
         console.log(error);
     }
 }
 
-exports.list = async (name, age) => {
-    let query = createObj(name, age);
+exports.list = async (dbObj, var1, var2) => {
+    let query = (var1 || var2) ? dbObj.createObj(var1, var2) : {};
     try {
-        return await Person.find(query);
+        return await dbObj.model.find(query);
     } catch (error) {
         return error;
     }
 }
 
-exports.remove = async(name) => {
+exports.remove = async(dbObj, name) => {
     try{
-        return await Person.deleteOne({name});
+        return await dbObj.model.deleteOne({name});
     } catch (error) {
         return error;
     }
 }
 
-exports.update = async(name, newName, newAge) => {
-    let update = createObj(newName, newAge);
+exports.update = async(dbObj, name, var1, var2) => {
+    let update = dbObj.createObj(var1, var2);
     try{
-        return await Person.updateOne({name}, update);
+        return await dbObj.model.updateOne({name}, update);
     } catch (error) {
         return error;
     }
