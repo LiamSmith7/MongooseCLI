@@ -1,5 +1,12 @@
 const Person = require("./model");
 
+const createObj = (name, age) => {
+    let query = {};
+    if(name) query.name = name;
+    if(age) query.age = age;
+    return query;
+}
+
 exports.add = async (name, age) => {
     try{
         return await Person.create({name, age}); // same as {name: name, age: age}
@@ -9,11 +16,7 @@ exports.add = async (name, age) => {
 }
 
 exports.list = async (name, age) => {
-
-    let query = {};
-    if(name) query.name = name;
-    if(age) query.age = age;
-
+    let query = createObj(name, age);
     try {
         return await Person.find(query);
     } catch (error) {
@@ -30,9 +33,7 @@ exports.remove = async(name) => {
 }
 
 exports.update = async(name, newName, newAge) => {
-    let update = {};
-    if(newName) update.name = newName;
-    if(newAge) update.age = newAge;
+    let update = createObj(newName, newAge);
     try{
         return await Person.updateOne({name}, update);
     } catch (error) {
