@@ -1,2 +1,2 @@
 # MongooseCLI
-# A CLI to modify a Person or Location database
+## A CLI to modify a Person or Location database
